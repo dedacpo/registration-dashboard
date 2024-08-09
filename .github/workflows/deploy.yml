@@ -21,7 +21,7 @@ jobs:
         run: npm install
 
       - name: Build React project
-        run: npm run build:react
+        run: npm run build
 
       - name: Build Docusaurus site
         run: npm run build:docusaurus
