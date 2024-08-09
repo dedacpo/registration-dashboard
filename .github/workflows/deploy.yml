@@ -24,7 +24,7 @@ jobs:
         run: npm run build
 
       - name: Build Docusaurus site
-        run: npm run build:docusaurus
+        run: npm run build-docusaurus
 
       - name: Deploy to Vercel
         uses: amondnet/vercel-action@v20
