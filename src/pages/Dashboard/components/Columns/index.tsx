@@ -12,6 +12,8 @@ type Props = {
   registrations?: any[];
 };
 const Collumns = (props: Props) => {
+  const { registrations } = props;
+  console.log("registrations", registrations)
   return (
     <S.Container>
       {allColumns.map((collum) => {
