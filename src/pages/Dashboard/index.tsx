@@ -6,6 +6,7 @@ import { useGetRegistrations } from "~/api/hooks";
 const DashboardPage = () => {
 
   const {data: registrations} = useGetRegistrations();
+  console.log("Testando github actions CI/CD")
   return (
     <S.Container>
       <SearchBar />
