@@ -9,7 +9,10 @@
     "build": "tsc && vite build",
     "test:dev": "jest --watch --verbose --no-cache",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
+    "build-docusaurus": "cd registration-dashboard && npm run build"
   },
   "dependencies": {
     "axios": "^1.7.2",
@@ -23,7 +26,16 @@
     "styled-components": "^6.1.11"
   },
   "devDependencies": {
+    "@chromatic-com/storybook": "^1.6.1",
     "@nabla/vite-plugin-eslint": "^2.0.4",
+    "@storybook/addon-essentials": "^8.2.8",
+    "@storybook/addon-interactions": "^8.2.8",
+    "@storybook/addon-links": "^8.2.8",
+    "@storybook/addon-onboarding": "^8.2.8",
+    "@storybook/blocks": "^8.2.8",
+    "@storybook/react": "^8.2.8",
+    "@storybook/react-vite": "^8.2.8",
+    "@storybook/test": "^8.2.8",
     "@testing-library/jest-dom": "^6.4.6",
     "@testing-library/react": "13.0.0",
     "@types/jest": "^29.5.12",
@@ -40,8 +52,10 @@
     "eslint-plugin-react": "^7.34.2",
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-react-refresh": "^0.4.6",
+    "eslint-plugin-storybook": "^0.8.0",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "29.7.0",
+    "storybook": "^8.2.8",
     "ts-jest": "29.1.2",
     "ts-node": "10.9.2",
     "typescript": "^5.2.2",
