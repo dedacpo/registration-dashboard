@@ -25,12 +25,15 @@ const Collumns = (props: Props) => {
               </S.TitleColumn>
               <S.CollumContent>
                 {props?.registrations?.map((registration) => {
-                  return (
-                    <RegistrationCard
-                      data={registration}
-                      key={registration.id}
-                    />
-                  );
+                  if(registration.status === collum.status){
+                    return (
+                      <RegistrationCard
+                        data={registration}
+                        key={registration.id}
+                      />
+                    );
+                  }
+                  
                 })}
               </S.CollumContent>
             </>
