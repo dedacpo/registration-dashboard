@@ -6,8 +6,14 @@ import {
   HiOutlineCalendar,
   HiOutlineTrash,
 } from "react-icons/hi";
-import { Registration, RegistrationStatus, useDeleteRegistration, useUpdateRegistration } from "~/api";
-import { useCallback } from "react";
+import {
+  Registration,
+  RegistrationStatus,
+  useDeleteRegistration,
+  useUpdateRegistration,
+} from "~/api";
+import { useCallback, useContext } from "react";
+import { LoaderContext } from "~/shared/loader";
 
 type Props = {
   data: Registration;
@@ -16,22 +22,22 @@ type Props = {
 const RegistrationCard = (props: Props) => {
   const updateRegistration = useUpdateRegistration();
   const deleteRegistration = useDeleteRegistration();
+  const loaderContext = useContext(LoaderContext);
 
   const handleUpdateRegistration = useCallback(
     async (status: RegistrationStatus) => {
-      const response = await updateRegistration({ ...props.data, status });
-      console.log("response", response);
+      loaderContext?.showLoader();
+      await updateRegistration({ ...props.data, status });
+      loaderContext?.hideLoader();
     },
     [props.data.id]
   );
 
-  const handleDeleteRegistration = useCallback(
-    async () => {
-      const response = await deleteRegistration(props.data.id);
-      console.log("response", response);
-    },
-    [props.data.id]
-  );
+  const handleDeleteRegistration = useCallback(async () => {
+    loaderContext?.showLoader();
+    await deleteRegistration(props.data.id);
+    loaderContext?.hideLoader();
+  }, [props.data.id]);
   return (
     <S.Card>
       <S.IconAndText>
@@ -66,7 +72,7 @@ const RegistrationCard = (props: Props) => {
           Revisar novamente
         </ButtonSmall>
 
-        <HiOutlineTrash onClick={handleDeleteRegistration}/>
+        <HiOutlineTrash onClick={handleDeleteRegistration} />
       </S.Actions>
     </S.Card>
   );
