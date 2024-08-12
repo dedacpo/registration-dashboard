@@ -1,7 +1,7 @@
 import Router from "~/router";
 import { Header } from "./components/Header";
 import { QueryProvider } from "~/api/query-provider";
-import { LoaderProvider } from "./shared/loader";
+import { LoaderProvider } from "./components/Loader";
 
 function App() {
   return (

@@ -17,7 +17,9 @@ interface LoaderContextProps {
   hideLoader: () => void;
 }
 
-export const LoaderContext = createContext<LoaderContextProps | undefined>(undefined);
+export const LoaderContext = createContext<LoaderContextProps | undefined>(
+  undefined
+);
 
 export const LoaderProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(false);
