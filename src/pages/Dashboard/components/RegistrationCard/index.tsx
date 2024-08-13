@@ -43,7 +43,7 @@ const RegistrationCard = (props: Props) => {
       enqueueSnackbar("Houve um erro na solicitação", { variant: "error" });
     }
     loaderContext?.hideLoader();
-  }, [props.data.id]);
+  }, [props.data.id, deleteRegistration, loaderContext, enqueueSnackbar]);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -68,7 +68,7 @@ const RegistrationCard = (props: Props) => {
       enqueueSnackbar("Houve um erro na solicitação", { variant: "error" });
     }
     loaderContext?.hideLoader();
-  }, [props.data.id, currentModalAction, loaderContext]);
+  }, [currentModalAction, loaderContext, enqueueSnackbar, updateRegistration, props.data]);
 
   const actions = [
     {

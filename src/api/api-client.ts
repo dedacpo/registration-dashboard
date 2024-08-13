@@ -24,4 +24,8 @@ export namespace ApiClient {
   export async function delteRegistration(id: string): Promise<Registration> {
     return ApiClientAxios.delete(`/registrations/${id}`);
   }
+
+  export async function searchByKey(key: string, value: string): Promise<Registration[]> {
+    return ApiClientAxios.get(`/registrations?${key}=${value}`);
+  }
 }

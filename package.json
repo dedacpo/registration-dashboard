@@ -15,12 +15,15 @@
     "build-docusaurus": "cd registration-dashboard && npm run build"
   },
   "dependencies": {
+    "@mona-health/react-input-mask": "^3.0.3",
     "axios": "^1.7.2",
+    "cpf-cnpj-validator": "^1.0.3",
     "json-server": "^1.0.0-beta.1",
     "notistack": "^3.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^5.2.1",
+    "react-input-mask": "^2.0.4",
     "react-modal": "^3.16.1",
     "react-query": "^3.39.3",
     "react-router-dom": "5.1.2",
@@ -42,6 +45,7 @@
     "@types/jest": "^29.5.12",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
+    "@types/react-input-mask": "^3.0.3",
     "@types/react-modal": "^3.16.3",
     "@types/react-router-dom": "^5.3.3",
     "@typescript-eslint/eslint-plugin": "^7.2.0",
