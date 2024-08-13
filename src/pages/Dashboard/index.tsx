@@ -14,14 +14,12 @@ const DashboardPage = () => {
 
   const search = useCallback(
     async (value: string) => {
-      console.log("value", CPF.isValid(value));
       if (value && CPF.isValid(value)) {
         const result = await searchByKey({
           key: "cpf",
           value: value.replaceAll(".", "").replaceAll("-", ""),
         });
         setRegistrations(result);
-        console.log("result", result);
       } else {
         const data = await getRegistrations();
         setRegistrations(data);

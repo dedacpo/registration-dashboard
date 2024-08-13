@@ -28,4 +28,8 @@ export namespace ApiClient {
   export async function searchByKey(key: string, value: string): Promise<Registration[]> {
     return ApiClientAxios.get(`/registrations?${key}=${value}`);
   }
+
+  export async function postRegistration(registration: Omit<Registration, "id">): Promise<Registration[]> {
+    return ApiClientAxios.post(`/registrations/`, { ...registration });
+  }
 }

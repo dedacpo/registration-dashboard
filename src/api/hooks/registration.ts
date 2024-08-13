@@ -55,3 +55,19 @@ export const useDeleteRegistration = () => {
     );
     return mutateAsync;
   };
+
+  export const usePostRegistration = () => {
+    const { ApiClient } = useApiClient();
+    const queryClient = useQueryClient();
+  
+    const { mutateAsync } = useMutation(
+      ["post-registration"],
+      (registration: Omit<Registration, "id">) => ApiClient.postRegistration(registration),
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries(["get-registrations"]);
+        },
+      }
+    );
+    return mutateAsync;
+  };
