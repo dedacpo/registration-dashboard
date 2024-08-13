@@ -38,7 +38,7 @@ export function Modal({
       style={customStyles} // Aplica os estilos do modal
     >
       <button
-        onClick={() => {}}
+        onClick={onRequestClose}
         style={{
           ...closeButtonStyles,
           ...(isHover ? closeButtonHoverStyles : {}),

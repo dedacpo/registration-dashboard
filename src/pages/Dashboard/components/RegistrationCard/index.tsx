@@ -15,6 +15,7 @@ import {
 import { useCallback, useContext, useState } from "react";
 import { LoaderContext } from "~/components/Loader";
 import { Modal } from "../../../../components/Modal";
+import { useSnackbar } from "notistack";
 
 type Props = {
   data: Registration;
@@ -29,12 +30,18 @@ const statusTranslation = {
 const RegistrationCard = (props: Props) => {
   const updateRegistration = useUpdateRegistration();
   const deleteRegistration = useDeleteRegistration();
+  const { enqueueSnackbar } = useSnackbar();
 
   const loaderContext = useContext(LoaderContext);
 
   const handleDeleteRegistration = useCallback(async () => {
     loaderContext?.showLoader();
-    await deleteRegistration(props.data.id);
+    try {
+      await deleteRegistration(props.data.id);
+      enqueueSnackbar("Registro removido com sucesso", { variant: "success" });
+    } catch (e) {
+      enqueueSnackbar("Houve um erro na solicitação", { variant: "error" });
+    }
     loaderContext?.hideLoader();
   }, [props.data.id]);
 
@@ -48,15 +55,20 @@ const RegistrationCard = (props: Props) => {
       setModalCurrentAction(action);
       setIsModalOpen(true);
     },
-    [setModalCurrentAction, setIsModalOpen]
+    []
   );
 
   const handleUpdateRegistration = useCallback(async () => {
-    loaderContext?.showLoader();
     if (!currentModalAction) return;
-    await updateRegistration({ ...props.data, status: currentModalAction });
+    loaderContext?.showLoader();
+    try {
+      await updateRegistration({ ...props.data, status: currentModalAction });
+      enqueueSnackbar("Status alterado com sucesso", { variant: "success" });
+    } catch (e) {
+      enqueueSnackbar("Houve um erro na solicitação", { variant: "error" });
+    }
     loaderContext?.hideLoader();
-  }, [props.data.id]);
+  }, [props.data.id, currentModalAction, loaderContext]);
 
   const actions = [
     {
@@ -69,7 +81,7 @@ const RegistrationCard = (props: Props) => {
     },
     {
       label: "Confirmar",
-      onClick: () => handleUpdateRegistration(),      
+      onClick: () => handleUpdateRegistration(),
       bgcolor: "rgb(155, 229, 155)",
     },
   ];
@@ -113,7 +125,9 @@ const RegistrationCard = (props: Props) => {
           onRequestClose={() => setIsModalOpen(false)}
           actions={actions}
         >
-          Você tem certeza que deseja alterar o status de {props.data.employeeName} para {statusTranslation[currentModalAction]}?
+          Você tem certeza que deseja alterar o status de{" "}
+          {props.data.employeeName} para {statusTranslation[currentModalAction]}
+          ?
         </Modal>
       )}
     </S.Card>
