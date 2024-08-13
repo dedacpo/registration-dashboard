@@ -12,9 +12,12 @@ const DashboardPage = () => {
 
   const [registrations, setRegistrations] = useState<Registration[]>([]);
 
+  const [searchValue, setSearchValue] = useState<string>("");
+
   const search = useCallback(
     async (value: string) => {
-      if (value && CPF.isValid(value)) {
+      setSearchValue(value || "");
+      if (value?.length && CPF.isValid(value)) {
         const result = await searchByKey({
           key: "cpf",
           value: value.replaceAll(".", "").replaceAll("-", ""),
@@ -38,7 +41,7 @@ const DashboardPage = () => {
 
   return (
     <S.Container>
-      <SearchBar onChange={(event) => search(event.target.value)} />
+      <SearchBar refetch={() => search(searchValue)} onChange={(event) => search(event.target.value)} />
       <Collumns registrations={registrations} />
     </S.Container>
   );

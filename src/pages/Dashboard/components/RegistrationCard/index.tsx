@@ -50,13 +50,10 @@ const RegistrationCard = (props: Props) => {
   const [currentModalAction, setModalCurrentAction] =
     useState<RegistrationStatus | null>(null);
 
-  const openModal = useCallback(
-    (action: RegistrationStatus) => {
-      setModalCurrentAction(action);
-      setIsModalOpen(true);
-    },
-    []
-  );
+  const openModal = useCallback((action: RegistrationStatus) => {
+    setModalCurrentAction(action);
+    setIsModalOpen(true);
+  }, []);
 
   const handleUpdateRegistration = useCallback(async () => {
     if (!currentModalAction) return;
@@ -68,7 +65,13 @@ const RegistrationCard = (props: Props) => {
       enqueueSnackbar("Houve um erro na solicitação", { variant: "error" });
     }
     loaderContext?.hideLoader();
-  }, [currentModalAction, loaderContext, enqueueSnackbar, updateRegistration, props.data]);
+  }, [
+    currentModalAction,
+    loaderContext,
+    enqueueSnackbar,
+    updateRegistration,
+    props.data,
+  ]);
 
   const actions = [
     {
@@ -100,21 +103,29 @@ const RegistrationCard = (props: Props) => {
         <span>{props.data.admissionDate}</span>
       </S.IconAndText>
       <S.Actions>
-        <ButtonSmall
-          onClick={() => openModal("REPROVED")}
-          bgcolor="rgb(255, 145, 154)"
-        >
-          Reprovar
-        </ButtonSmall>
-        <ButtonSmall
-          onClick={() => openModal("APPROVED")}
-          bgcolor="rgb(155, 229, 155)"
-        >
-          Aprovar
-        </ButtonSmall>
-        <ButtonSmall onClick={() => openModal("REVIEW")} bgcolor="#ff8858">
-          Revisar novamente
-        </ButtonSmall>
+        {props.data.status !== "REPROVED" && (
+          <ButtonSmall
+            onClick={() => openModal("REPROVED")}
+            bgcolor="rgb(255, 145, 154)"
+          >
+            Reprovar
+          </ButtonSmall>
+        )}
+
+        {props.data.status !== "APPROVED" && (
+          <ButtonSmall
+            onClick={() => openModal("APPROVED")}
+            bgcolor="rgb(155, 229, 155)"
+          >
+            Aprovar
+          </ButtonSmall>
+        )}
+
+        {props.data.status !== "REVIEW" && (
+          <ButtonSmall onClick={() => openModal("REVIEW")} bgcolor="#ff8858">
+            Revisar novamente
+          </ButtonSmall>
+        )}      
 
         <HiOutlineTrash onClick={handleDeleteRegistration} />
       </S.Actions>

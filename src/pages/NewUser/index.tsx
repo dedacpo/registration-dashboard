@@ -52,6 +52,7 @@ const NewUserPage = () => {
         {
           ...formData,
           admissionDate: new Date(formData.admissionDate).toISOString(),
+          cpf: formData.cpf.replaceAll(".", "").replaceAll("-", ""),
         },
         { abortEarly: false }
       );

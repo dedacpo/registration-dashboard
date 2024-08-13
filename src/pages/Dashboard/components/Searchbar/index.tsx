@@ -10,6 +10,7 @@ import { InputHTMLAttributes } from "react";
 type SearchBarProps = {
   label?: string;
   error?: string;
+  refetch: () => void;
 } & InputHTMLAttributes<any>
 
 
@@ -31,7 +32,7 @@ export const SearchBar = (props: SearchBarProps) => {
       />
 
       <S.Actions>
-        <IconButton aria-label="refetch">
+        <IconButton aria-label="refetch" onClick={props.refetch}>
           <HiRefresh />
         </IconButton>
         <Button onClick={() => goToNewAdmissionPage()}>Nova Admissão</Button>
