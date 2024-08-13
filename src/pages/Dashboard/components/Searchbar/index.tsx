@@ -5,8 +5,7 @@ import { IconButton } from "~/components/Buttons/IconButton";
 import TextField from "~/components/TextField";
 import routes from "~/router/routes";
 import * as S from "./styles";
-import { InputHTMLAttributes, useCallback, useState } from "react";
-import { useSearchByKey } from "~/api";
+import { InputHTMLAttributes } from "react";
 
 type SearchBarProps = {
   label?: string;
