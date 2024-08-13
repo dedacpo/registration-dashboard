@@ -1,12 +1,16 @@
 import { useApiClient } from "../api-provider";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import { Registration } from "../types";
 
 export const useGetRegistrations = () => {
   const { ApiClient } = useApiClient();
-  return useQuery(["get-registrations"], async () =>
-    ApiClient.getRegistrations()
+
+  const { mutateAsync } = useMutation(
+    ["get-registration"],
+    () => ApiClient.getRegistrations(),
+
   );
+  return mutateAsync;
 };
 
 export const useUpdateRegistration = () => {
@@ -40,4 +44,14 @@ export const useDeleteRegistration = () => {
     );
     return mutateAsync;
   };
-  
+
+  export const useSearchByKey = () => {
+    const { ApiClient } = useApiClient();
+
+    const { mutateAsync } = useMutation(
+      ["search-registration"],
+      ({ key, value }: { key: string, value: string }) => ApiClient.searchByKey(key, value),
+
+    );
+    return mutateAsync;
+  };

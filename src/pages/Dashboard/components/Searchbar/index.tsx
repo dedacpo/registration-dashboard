@@ -5,16 +5,30 @@ import { IconButton } from "~/components/Buttons/IconButton";
 import TextField from "~/components/TextField";
 import routes from "~/router/routes";
 import * as S from "./styles";
-export const SearchBar = () => {
+import { InputHTMLAttributes } from "react";
+
+type SearchBarProps = {
+  label?: string;
+  error?: string;
+} & InputHTMLAttributes<any>
+
+
+export const SearchBar = (props: SearchBarProps) => {
   const history = useHistory();
 
   const goToNewAdmissionPage = () => {
     history.push(routes.newUser);
   };
-  
+
   return (
     <S.Container>
-      <TextField  placeholder="Digite um CPF válido" />
+      <TextField
+        value={props.value}
+        onChange={props.onChange}
+        onBlur={props.onBlur}
+        placeholder="Digite um CPF válido"
+      />
+
       <S.Actions>
         <IconButton aria-label="refetch">
           <HiRefresh />
