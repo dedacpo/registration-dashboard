@@ -24,6 +24,7 @@ export const Input = styled.input`
 type Props = {
   label?: string;
   error?: string;
+  mask?: string;
 } & InputHTMLAttributes<any>;
 
 const TextField = (props: Props) => {
@@ -31,7 +32,7 @@ const TextField = (props: Props) => {
     <div>
       <label htmlFor={props.id}>{props.label}</label>
       <InputMask
-        mask="999.999.999-99"
+        mask={props.mask}
         value={props.value}
         onChange={props.onChange}
         onBlur={props.onBlur}

@@ -1,16 +1,12 @@
 import { useApiClient } from "../api-provider";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { Registration } from "../types";
 
 export const useGetRegistrations = () => {
   const { ApiClient } = useApiClient();
-
-  const { mutateAsync } = useMutation(
-    ["get-registration"],
-    () => ApiClient.getRegistrations(),
-
+  return useQuery(["get-registrations"], async () =>
+    ApiClient.getRegistrations()
   );
-  return mutateAsync;
 };
 
 export const useUpdateRegistration = () => {
@@ -30,28 +26,45 @@ export const useUpdateRegistration = () => {
 };
 
 export const useDeleteRegistration = () => {
-    const { ApiClient } = useApiClient();
-    const queryClient = useQueryClient();
-  
-    const { mutateAsync } = useMutation(
-      ["delete-registration"],
-      (id: string) => ApiClient.delteRegistration(id),
-      {
-        onSuccess: () => {
-          queryClient.invalidateQueries(["get-registrations"]);
-        },
-      }
-    );
-    return mutateAsync;
-  };
+  const { ApiClient } = useApiClient();
+  const queryClient = useQueryClient();
 
-  export const useSearchByKey = () => {
-    const { ApiClient } = useApiClient();
+  const { mutateAsync } = useMutation(
+    ["delete-registration"],
+    (id: string) => ApiClient.delteRegistration(id),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["get-registrations"]);
+      },
+    }
+  );
+  return mutateAsync;
+};
 
-    const { mutateAsync } = useMutation(
-      ["search-registration"],
-      ({ key, value }: { key: string, value: string }) => ApiClient.searchByKey(key, value),
+export const useSearchByKey = () => {
+  const { ApiClient } = useApiClient();
 
-    );
-    return mutateAsync;
-  };
+  const { mutateAsync } = useMutation(
+    ["search-registration"],
+    ({ key, value }: { key: string; value: string }) =>
+      ApiClient.searchByKey(key, value)
+  );
+  return mutateAsync;
+};
+
+export const usePostRegistration = () => {
+  const { ApiClient } = useApiClient();
+  const queryClient = useQueryClient();
+
+  const { mutateAsync } = useMutation(
+    ["post-registration"],
+    (registration: Omit<Registration, "id">) =>
+      ApiClient.postRegistration(registration),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["get-registrations"]);
+      },
+    }
+  );
+  return mutateAsync;
+};

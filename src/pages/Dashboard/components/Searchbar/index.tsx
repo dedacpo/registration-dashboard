@@ -28,6 +28,7 @@ export const SearchBar = (props: SearchBarProps) => {
         onChange={props.onChange}
         onBlur={props.onBlur}
         placeholder="Digite um CPF válido"
+        mask="999.999.999-99"
       />
 
       <S.Actions>
