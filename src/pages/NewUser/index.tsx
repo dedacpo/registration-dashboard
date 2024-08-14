@@ -141,7 +141,7 @@ const NewUserPage = () => {
         await validateForm()
         setIsModalOpen(true);
       }catch{
-
+        console.log("validation error")
       }
       
     }
