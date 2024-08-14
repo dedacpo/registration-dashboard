@@ -6,12 +6,23 @@ import { IconButton } from "~/components/Buttons/IconButton";
 import { useHistory } from "react-router-dom";
 import routes from "~/router/routes";
 import * as Yup from "yup";
-import { useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { cpf as CPF } from "cpf-cnpj-validator";
-import { Registration, usePostRegistration } from "~/api";
+import { usePostRegistration } from "~/api";
 import { useSnackbar } from "notistack";
+import { Modal } from "~/components/Modal";
+import { LoaderContext } from "~/components/Loader";
 
-const form: Omit<Registration, "id"> = {
+
+type RegistrationForm = {
+  employeeName: string;
+  email: string;
+  cpf: string;
+  admissionDate: string;
+  status: "APPROVED" | "REPROVED" | "REVIEW";
+};
+
+const form: RegistrationForm = {
   employeeName: "",
   email: "",
   cpf: "",
@@ -23,16 +34,34 @@ const NewUserPage = () => {
   const history = useHistory();
   const postRegistration = usePostRegistration();
   const { enqueueSnackbar } = useSnackbar();
+  const loaderContext = useContext(LoaderContext);
 
-  const goToHome = () => {
+  const goToHome = useCallback(() => {
     history.push(routes.dashboard);
-  };
+  }, [history]);
 
-  const [formData, setFormData] = useState(form);
-  const [errors, setErrors] = useState(form);
+  const [formData, setFormData] = useState<RegistrationForm>(form);
+  const [errors, setErrors] = useState<RegistrationForm | null>(form);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const validationSchema = Yup.object().shape({
-    employeeName: Yup.string().required("O campo 'Nome' é obrigatório"),
+    employeeName: Yup.string()
+      .required("O campo 'Nome' é obrigatório")
+      .test(
+        "employeeName",
+        "Nome deve conter ao menos 2 letras",
+        (value) => value?.length > 2
+      )
+      .test(
+        "employeeName",
+        "Nome deve conter ao menos um espaço em branco",
+        (value) => value?.match(/\s/) !== null
+      )
+      .test(
+        "employeeName",
+        "Nome não deve começar com números",
+        (value) => value[0]?.match(/[0-9]/) === null
+      ),
     email: Yup.string()
       .email("Formato de email inválido")
       .required("O campo 'Email' é obrigatório"),
@@ -44,34 +73,81 @@ const NewUserPage = () => {
       .required("O campo 'Data de admissão' é obrigatório"),
   });
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const validateForm = useCallback(async () => {
+    await validationSchema.validate(
+      {
+        ...formData,
+        admissionDate: formData.admissionDate.length
+          ? new Date(formData.admissionDate).toISOString()
+          : "",
+      },
+      { abortEarly: false }
+    );
+  }, [validationSchema, formData]);
 
-    try {
-      await validationSchema.validate(
-        {
-          ...formData,
-          admissionDate: new Date(formData.admissionDate).toISOString(),
-          cpf: formData.cpf.replaceAll(".", "").replaceAll("-", ""),
-        },
-        { abortEarly: false }
-      );
+  const handleSubmit = useCallback(
+    async (e: React.FormEvent) => {
+      e.preventDefault();
       try {
-        await postRegistration(formData);
-        enqueueSnackbar("Registro criado com sucesso", { variant: "success" });
-      } catch {
-        enqueueSnackbar("Houve um erro ao criar o registro", {
-          variant: "error",
+        await validateForm();
+        setErrors(null);
+        setIsModalOpen(true);
+      } catch (err) {
+        const validationErrors: { [key: string]: string } = {};
+        (err as any).inner?.forEach((error: Yup.ValidationError) => {
+          validationErrors[error.path!] = error.message;
         });
+        setErrors(validationErrors as any);
       }
-    } catch (err) {
-      const validationErrors: { [key: string]: string } = {};
-      (err as any).inner.forEach((error: Yup.ValidationError) => {
-        validationErrors[error.path!] = error.message;
+    },
+    [validationSchema, formData, setIsModalOpen, setErrors, validateForm]
+  );
+
+  const handleConfirmation = useCallback(async () => {
+    const [year, month, day] = formData.admissionDate.split("-");
+    try {
+      loaderContext?.showLoader();
+      await postRegistration({
+        ...formData,
+        cpf: formData.cpf.replaceAll(".", "").replaceAll("-", ""),
+        admissionDate: `${day}/${month}/${year}`,
       });
-      setErrors(validationErrors as any);
+      loaderContext?.hideLoader();
+      enqueueSnackbar("Registro criado com sucesso", { variant: "success" });
+      goToHome();
+    } catch {
+      enqueueSnackbar("Houve um erro ao criar o registro", {
+        variant: "error",
+      });
     }
-  };
+  }, [formData, postRegistration, loaderContext, enqueueSnackbar, goToHome]);
+
+  const actions = [
+    {
+      label: "Cancelar",
+      onClick: () => setIsModalOpen(false),
+      bgcolor: "rgb(255, 145, 154)",
+    },
+    {
+      label: "Confirmar",
+      onClick: handleConfirmation,
+      bgcolor: "rgb(155, 229, 155)",
+    },
+  ];
+
+  useEffect(() => {
+    const validate = async () => {
+      try{
+        await validateForm()
+        setIsModalOpen(true);
+      }catch{
+
+      }
+      
+    }
+      validate()
+    
+  }, [validateForm])
 
   return (
     <form onSubmit={handleSubmit}>
@@ -113,31 +189,40 @@ const NewUserPage = () => {
             }
           />
           <p style={{ color: "red" }}>
-            {errors.employeeName && (
+            {errors?.employeeName && (
               <span>
                 {errors.employeeName}
                 <br />
               </span>
             )}
 
-            {errors.email && (
+            {errors?.email && (
               <span>
                 {errors.email} <br />
               </span>
             )}
 
-            {errors.cpf && (
+            {errors?.cpf && (
               <span>
-                {errors.cpf} <br />
+                {errors?.cpf} <br />
               </span>
             )}
 
-            {errors.admissionDate && <span>{errors.admissionDate}</span>}
+            {errors?.admissionDate && <span>{errors.admissionDate}</span>}
           </p>
 
           <Button type="submit">Cadastrar</Button>
         </S.Card>
       </S.Container>
+      <Modal
+        isOpen={isModalOpen}
+        title={`Criar novo registro`}
+        onRequestClose={() => setIsModalOpen(false)}
+        actions={actions}
+      >
+        Deseja criar um novo registro para:
+        <div>{formData.employeeName}?</div>
+      </Modal>
     </form>
   );
 };

@@ -3,16 +3,19 @@ import * as S from "./styles";
 import { SearchBar } from "./components/Searchbar";
 import { useGetRegistrations, useSearchByKey } from "~/api/hooks";
 import { useCallback, useEffect, useState } from "react";
-import { Registration } from "~/api";
 import { cpf as CPF } from "cpf-cnpj-validator";
+import { Registration } from "~/api";
 
 const DashboardPage = () => {
-  const getRegistrations = useGetRegistrations();
+  const { data: registrations } = useGetRegistrations();
+
   const searchByKey = useSearchByKey();
 
-  const [registrations, setRegistrations] = useState<Registration[]>([]);
-
   const [searchValue, setSearchValue] = useState<string>("");
+
+  const [registrationsFromSearch, setRegistrationsFromSearch] = useState<
+    Registration[] | null
+  >(null);
 
   const search = useCallback(
     async (value: string) => {
@@ -22,27 +25,35 @@ const DashboardPage = () => {
           key: "cpf",
           value: value.replaceAll(".", "").replaceAll("-", ""),
         });
-        setRegistrations(result);
+        setRegistrationsFromSearch(result);
       } else {
-        const data = await getRegistrations();
-        setRegistrations(data);
+        const result = await searchByKey({ key: "cpf", value: "" });
+        setRegistrationsFromSearch(result);
       }
     },
-    [searchByKey, getRegistrations]
+    [searchByKey]
   );
 
   useEffect(() => {
-    const fetchRegistrations = async () => {
-      const data = await getRegistrations();
-      setRegistrations(data);
+    const searchByKeyAsync = async () => {
+      const result = await searchByKey({
+        key: "cpf",
+        value: searchValue.length
+          ? searchValue.replaceAll(".", "").replaceAll("-", "")
+          : "",
+      });
+      setRegistrationsFromSearch(result);
     };
-    fetchRegistrations();
-  }, [getRegistrations]);
+    searchByKeyAsync();
+  }, [registrations]);
 
   return (
     <S.Container>
-      <SearchBar refetch={() => search(searchValue)} onChange={(event) => search(event.target.value)} />
-      <Collumns registrations={registrations} />
+      <SearchBar
+        refetch={() => search(searchValue)}
+        onChange={(event) => search(event.target.value)}
+      />
+      <Collumns registrations={registrationsFromSearch ?? registrations} />
     </S.Container>
   );
 };
