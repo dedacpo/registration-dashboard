@@ -1,6 +1,6 @@
 import Collumns from "./components/Columns";
 import * as S from "./styles";
-import { SearchBar } from "./components/Searchbar";
+import SearchBar from "./components/Searchbar";
 import { useGetRegistrations, useSearchByKey } from "~/api/hooks";
 import { useCallback, useEffect, useState } from "react";
 import { cpf as CPF } from "cpf-cnpj-validator";

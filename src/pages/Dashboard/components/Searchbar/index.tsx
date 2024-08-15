@@ -14,7 +14,7 @@ type SearchBarProps = {
 } & InputHTMLAttributes<any>
 
 
-export const SearchBar = (props: SearchBarProps) => {
+const SearchBar = (props: SearchBarProps) => {
   const history = useHistory();
 
   const goToNewAdmissionPage = () => {
@@ -40,3 +40,5 @@ export const SearchBar = (props: SearchBarProps) => {
     </S.Container>
   );
 };
+
+export default SearchBar;

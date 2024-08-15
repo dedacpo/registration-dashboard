@@ -21,6 +21,12 @@ type Props = {
   data: Registration;
 };
 
+export type Action = {
+  label: string;
+  onClick: () => void;
+  bgcolor: string;
+};
+
 const statusTranslation = {
   APPROVED: "Aprovado",
   REPROVED: "Reprovado",
@@ -73,7 +79,7 @@ const RegistrationCard = (props: Props) => {
     props.data,
   ]);
 
-  const actions = [
+  const actions: Action[] = [
     {
       label: "Cancelar",
       onClick: () => {
@@ -127,7 +133,7 @@ const RegistrationCard = (props: Props) => {
           </ButtonSmall>
         )}      
 
-        <HiOutlineTrash onClick={handleDeleteRegistration} />
+        <HiOutlineTrash role="iconDelete" onClick={handleDeleteRegistration} />
       </S.Actions>
       {currentModalAction && (
         <Modal
