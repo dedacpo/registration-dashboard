@@ -23,30 +23,6 @@
       "employeeName": "José Leão",
       "status": "REPROVED",
       "cpf": "78502270001"
-    },
-    {
-      "id": "3a53",
-      "employeeName": "asdasdasd asdsda",
-      "email": "adasd@adsda.com",
-      "cpf": "84126416048",
-      "admissionDate": "13/08/2024",
-      "status": "REVIEW"
-    },
-    {
-      "id": "66d3",
-      "employeeName": "dasdas sada",
-      "email": "asda@a.com",
-      "cpf": "84126416048",
-      "admissionDate": "13/08/2024",
-      "status": "REVIEW"
-    },
-    {
-      "id": "403c",
-      "employeeName": "dasdas asda",
-      "email": "das@adwa.com",
-      "cpf": "84126416048",
-      "admissionDate": "14/08/2024",
-      "status": "REVIEW"
     }
   ]
 }
