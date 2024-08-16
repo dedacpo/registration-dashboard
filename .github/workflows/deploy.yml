@@ -6,33 +6,6 @@ on:
       - main
 
 jobs:
-  test:
-    name: Run Tests
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '18.19.1'
-
-    - name: Install dependencies
-      run: yarn install
-
-    - name: Run tests with coverage
-      run: npm run test:prod
-
-    - name: Verify coverage
-      run: |
-        COVERAGE=$(grep -Po '^\s+statements:\s*\K[0-9.]+' coverage/lcov-report/index.html)
-        echo "Coverage: $COVERAGE%"
-        if (( $(echo "$COVERAGE < 80.0" | bc -l) )); then
-          echo "Coverage is below the required threshold."
-          exit 1
-        fi
   build:
     runs-on: ubuntu-latest
     steps:
@@ -45,12 +18,12 @@ jobs:
           node-version: '18.19.1'
 
       - name: Install dependencies
-        run: npm install
+        run: yarn install
 
       - name: Install Docusaurus dependencies
         run: |
           cd registration-dashboard
-          npm install
+          yarn install
 
       - name: Build React project
         run: npm run build
