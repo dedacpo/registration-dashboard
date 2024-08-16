@@ -8,6 +8,7 @@
     "init:db": "json-server --watch db.json",
     "build": "tsc && vite build",
     "test:dev": "jest --watchAll --verbose --no-cache",
+    "test:prod": "jest --coverage --verbose",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
