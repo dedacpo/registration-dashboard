@@ -33,12 +33,12 @@ export const closeButtonStyles = {
   border: "none",
   fontSize: "20px",
   cursor: "pointer",
-  color: "#333", // Cor do ícone de fechar
-  transition: "color 0.2s", // Transição suave da cor
+  color: "#333", 
+  transition: "color 0.2s", 
 };
 
 export const closeButtonHoverStyles = {
-  color: "#e74c3c", // Cor de hover para o botão de fechar
+  color: "#e74c3c", 
 };
 
 export const Container = styled.div`

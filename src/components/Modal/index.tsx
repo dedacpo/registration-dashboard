@@ -1,13 +1,6 @@
-import { useState } from "react";
-import ReactModal from "react-modal";
-import {
-  closeButtonHoverStyles,
-  closeButtonStyles,
-  customStyles,
-} from "./styles";
+import { useState, useEffect } from "react";
+import * as ReactModal from 'react-modal';
 import * as S from "./styles";
-
-ReactModal.setAppElement("body");
 
 export type ModalProps = {
   isOpen: boolean;
@@ -28,20 +21,25 @@ export function Modal({
   title,
   actions,
 }: ModalProps) {
+
   const [isHover, setIsHover] = useState(false);
+
+  useEffect(() => {
+    ReactModal.setAppElement("body");
+  }, []);
 
   return (
     <ReactModal
       isOpen={isOpen}
       onRequestClose={onRequestClose}
       contentLabel="Example Modal"
-      style={customStyles} // Aplica os estilos do modal
+      style={S.customStyles}
     >
       <button
         onClick={onRequestClose}
         style={{
-          ...closeButtonStyles,
-          ...(isHover ? closeButtonHoverStyles : {}),
+          ...S.closeButtonStyles,
+          ...(isHover ? S.closeButtonHoverStyles : {}),
         }}
         onMouseEnter={() => setIsHover(true)}
         onMouseLeave={() => setIsHover(false)}
@@ -67,3 +65,5 @@ export function Modal({
     </ReactModal>
   );
 }
+
+export default Modal;

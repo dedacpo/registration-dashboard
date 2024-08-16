@@ -4,7 +4,7 @@ export function Loader() {
   return (
     <S.Backdrop>
       <S.Loader>
-        <img src="/loading-buffering.gif" />
+        <img  alt="Loading" src="/loading-buffering.gif" />
       </S.Loader>
     </S.Backdrop>
   );
@@ -12,7 +12,7 @@ export function Loader() {
 
 import { createContext, useState, ReactNode } from "react";
 
-interface LoaderContextProps {
+export interface LoaderContextProps {
   showLoader: () => void;
   hideLoader: () => void;
 }

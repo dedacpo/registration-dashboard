@@ -2,7 +2,7 @@ import { InputHTMLAttributes } from "react";
 import styled from "styled-components";
 import InputMask from "@mona-health/react-input-mask";
 
-export const Input = styled.input`
+const Input = styled.input`
   padding: 0 8px;
   vertical-align: middle;
   border-radius: 2px;
