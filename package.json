@@ -7,7 +7,7 @@
     "dev": "vite",
     "init:db": "json-server --watch db.json",
     "build": "tsc && vite build",
-    "test:dev": "jest --watch --verbose --no-cache",
+    "test:dev": "jest --watchAll --verbose --no-cache",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
@@ -17,6 +17,7 @@
   "dependencies": {
     "@mona-health/react-input-mask": "^3.0.3",
     "@tanstack/react-query": "^5.51.23",
+    "@testing-library/react-hooks": "^8.0.1",
     "axios": "^1.7.2",
     "cpf-cnpj-validator": "^1.0.3",
     "json-server": "^1.0.0-beta.1",
