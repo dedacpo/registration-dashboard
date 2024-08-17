@@ -6,11 +6,11 @@ import { IconButton } from "~/components/Buttons/IconButton";
 import { useHistory } from "react-router-dom";
 import routes from "~/router/routes";
 import * as Yup from "yup";
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useState } from "react";
 import { cpf as CPF } from "cpf-cnpj-validator";
 import { usePostRegistration } from "~/api";
 import { useSnackbar } from "notistack";
-import { Modal } from "~/components/Modal";
+import { ActionModal } from "~/components/Modal";
 import { LoaderContext } from "~/components/Loader";
 
 
@@ -135,19 +135,6 @@ const NewUserPage = () => {
     },
   ];
 
-  useEffect(() => {
-    const validate = async () => {
-      try{
-        await validateForm()
-        setIsModalOpen(true);
-      }catch{
-        console.log("validation error")
-      }
-      
-    }
-      validate()
-    
-  }, [validateForm])
 
   return (
     <form onSubmit={handleSubmit}>
@@ -214,7 +201,7 @@ const NewUserPage = () => {
           <Button type="submit">Cadastrar</Button>
         </S.Card>
       </S.Container>
-      <Modal
+      <ActionModal
         isOpen={isModalOpen}
         title={`Criar novo registro`}
         onRequestClose={() => setIsModalOpen(false)}
@@ -222,7 +209,7 @@ const NewUserPage = () => {
       >
         Deseja criar um novo registro para:
         <div>{formData.employeeName}?</div>
-      </Modal>
+      </ActionModal>
     </form>
   );
 };

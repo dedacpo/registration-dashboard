@@ -20,7 +20,7 @@ jest.mock("notistack", () => ({
 }));
 
 jest.mock("../../../../components/Modal", () => ({
-  Modal: jest.fn(({ isOpen, title, onRequestClose, actions, children }) => {
+  ActionModal: jest.fn(({ isOpen, title, onRequestClose, actions, children }) => {
     if (!isOpen) return null;
     return (
       <div>
