@@ -1,6 +1,6 @@
 import { render, fireEvent } from "@testing-library/react";
-import  Modal  from ".";
 import "@testing-library/jest-dom"; 
+import {ActionModal} from "../../components/Modal";
 
 jest.mock("react-modal", () => {
   const MockReactModal = ({ isOpen, children }: any) =>
@@ -12,14 +12,14 @@ jest.mock("react-modal", () => {
 describe("Modal Component", () => {
   it("should render correctly when open", () => {
     const { getByText } = render(
-      <Modal
+      <ActionModal
         isOpen={true}
         onRequestClose={jest.fn()}
         title="Test Modal"
         actions={[]}
       >
         Modal Content
-      </Modal>
+      </ActionModal>
     );
 
     expect(getByText("Test Modal")).toBeInTheDocument();
@@ -28,14 +28,14 @@ describe("Modal Component", () => {
 
   it("should change the close button style on hover", () => {
     const { getByRole } = render(
-      <Modal
+      <ActionModal
         isOpen={true}
         onRequestClose={jest.fn()}
         title="Test Modal"
         actions={[]}
       >
         Modal Content
-      </Modal>
+      </ActionModal>
     );
 
     const closeButton = getByRole("button");

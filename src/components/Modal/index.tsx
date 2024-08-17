@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import * as ReactModal from 'react-modal';
+import { useEffect, useState } from "react";
+import Modal  from 'react-modal';
 import * as S from "./styles";
 
 export type ModalProps = {
@@ -14,7 +14,7 @@ export type ModalProps = {
   }[];
 };
 
-export function Modal({
+export function ActionModal({
   isOpen,
   onRequestClose,
   children,
@@ -25,11 +25,11 @@ export function Modal({
   const [isHover, setIsHover] = useState(false);
 
   useEffect(() => {
-    ReactModal.setAppElement("body");
-  }, []);
+    Modal.setAppElement("body");
+  }, [Modal]);
 
   return (
-    <ReactModal
+    <Modal
       isOpen={isOpen}
       onRequestClose={onRequestClose}
       contentLabel="Example Modal"
@@ -62,8 +62,8 @@ export function Modal({
           );
         })}
       </S.Container>
-    </ReactModal>
+    </Modal>
   );
 }
 
-export default Modal;
+export default ActionModal;

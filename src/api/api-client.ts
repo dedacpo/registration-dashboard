@@ -3,7 +3,7 @@ import { Registration } from "./types/registration";
 
 export namespace ApiClient {
   export const ApiClientAxios = axios.create({
-    baseURL: "http://localhost:3000",
+    baseURL: "https://server-registration-dashboard.vercel.app/",
     headers: {
       "Content-Type": "application/json",
     },
@@ -26,7 +26,7 @@ export namespace ApiClient {
   }
 
   export async function searchByKey(key: string, value: string): Promise<Registration[]> {
-    return ApiClientAxios.get(`/registrations?${key}=${value}`);
+    return ApiClientAxios.get(value.length ? `/registrations?${key}=${value}` : `/registrations`);
   }
 
   export async function postRegistration(registration: Omit<Registration, "id">): Promise<Registration[]> {

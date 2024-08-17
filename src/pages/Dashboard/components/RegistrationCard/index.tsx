@@ -14,7 +14,7 @@ import {
 } from "~/api";
 import { useCallback, useContext, useState } from "react";
 import { LoaderContext } from "~/components/Loader";
-import { Modal } from "../../../../components/Modal";
+import { ActionModal } from "../../../../components/Modal";
 import { useSnackbar } from "notistack";
 
 type Props = {
@@ -136,7 +136,7 @@ const RegistrationCard = (props: Props) => {
         <HiOutlineTrash role="iconDelete" onClick={handleDeleteRegistration} />
       </S.Actions>
       {currentModalAction && (
-        <Modal
+        <ActionModal
           isOpen={isModalOpen}
           title={`Alterar status para ${statusTranslation[currentModalAction]}`}
           onRequestClose={() => setIsModalOpen(false)}
@@ -145,7 +145,7 @@ const RegistrationCard = (props: Props) => {
           Você tem certeza que deseja alterar o status de{" "}
           {props.data.employeeName} para {statusTranslation[currentModalAction]}
           ?
-        </Modal>
+        </ActionModal>
       )}
     </S.Card>
   );
